@@ -3,13 +3,15 @@ package com.peterpotts.logging
 import akka.actor.Actor
 
 trait LogEventActor extends Actor {
+  protected[this] def factory(name: String): org.slf4j.Logger = org.slf4j.LoggerFactory.getLogger(name)
+
   override def preStart() {
     context.system.eventStream.subscribe(context.self, classOf[LogEvent])
   }
 
   def receive = {
     case logEvent: LogEvent =>
-      val logger = org.slf4j.LoggerFactory.getLogger(logEvent.name)
+      val logger = factory(logEvent.name)
 
       logEvent match {
         case TraceLogEvent(_, message, None) => new TraceLevelLogger(logger).apply(message)

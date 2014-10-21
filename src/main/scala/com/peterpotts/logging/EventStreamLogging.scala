@@ -1,4 +1,4 @@
-package com.peterpotts.loggin
+package com.peterpotts.logging
 
 import akka.event.EventStream
 
@@ -7,5 +7,7 @@ import akka.event.EventStream
  */
 trait EventStreamLogging {
   val eventStream: EventStream
-  lazy val log: Logger = new EventStreamLogger(eventStream, org.slf4j.LoggerFactory.getLogger(getClass))
+  lazy val log: Logger = new EventStreamLogger(eventStream, factory(getClass.getName))
+
+  protected[this] def factory(name: String): org.slf4j.Logger = org.slf4j.LoggerFactory.getLogger(name)
 }

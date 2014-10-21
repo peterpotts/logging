@@ -11,7 +11,7 @@ trait LevelLogger {
   def apply(message: => String, error: Throwable)
 }
 
-abstract class JSONLevelLogger(val logger: org.slf4j.Logger) extends LevelLogger {
+abstract class AbstractLevelLogger(val logger: org.slf4j.Logger) extends LevelLogger {
   self: SLF4JLevelLogger =>
 
   def apply(message: => String) {
@@ -24,16 +24,16 @@ abstract class JSONLevelLogger(val logger: org.slf4j.Logger) extends LevelLogger
 }
 
 class TraceLevelLogger(logger: org.slf4j.Logger)
-  extends JSONLevelLogger(logger) with SLF4JTraceLogger
+  extends AbstractLevelLogger(logger) with SLF4JTraceLogger
 
 class DebugLevelLogger(logger: org.slf4j.Logger)
-  extends JSONLevelLogger(logger) with SLF4JDebugLogger
+  extends AbstractLevelLogger(logger) with SLF4JDebugLogger
 
 class InfoLevelLogger(logger: org.slf4j.Logger)
-  extends JSONLevelLogger(logger) with SLF4JInfoLogger
+  extends AbstractLevelLogger(logger) with SLF4JInfoLogger
 
 class WarnLevelLogger(logger: org.slf4j.Logger)
-  extends JSONLevelLogger(logger) with SLF4JWarnLogger
+  extends AbstractLevelLogger(logger) with SLF4JWarnLogger
 
 class ErrorLevelLogger(logger: org.slf4j.Logger)
-  extends JSONLevelLogger(logger) with SLF4JErrorLogger
+  extends AbstractLevelLogger(logger) with SLF4JErrorLogger
